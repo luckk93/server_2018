@@ -1,0 +1,156 @@
+
+#include "def.h"
+#include <stdint.h>
+#include <errno.h>
+#include <stdbool.h>
+#include <time.h>
+#include "tcpClient.h"
+
+void error(const char *msg)
+{
+    perror(msg);
+    exit(1);
+}
+
+int patternData[3];
+
+stampdata reciveddata[NOMBRECAM];
+
+#define ROBOT_IP "192.168.0.39"
+#define ROBOT_PORT 5000
+#define LOCAL_SERVER_PORT 8888
+
+void sendPosition(int udpSocket, struct sockaddr_in si_robot, char robotId, short x, short y);
+
+void *udpserverThread(void *t){
+    struct sockaddr_in si_me, si_other, si_robot;
+    int udpSocket, slen = sizeof(si_other), recv_len;
+    memset((char *) &si_robot, 0, sizeof(si_robot));
+    struct data buffer;
+    timespec messagetime, nextdisplay;
+    int camMsgId = 0;
+    
+    // Define robot address and port
+    memset((char *)&si_robot, 0, sizeof(si_robot));
+    si_robot.sin_family = AF_INET;
+    si_robot.sin_port = htons(ROBOT_PORT);
+    if(inet_aton(ROBOT_IP, &si_robot.sin_addr) == 0) {
+        fprintf(stderr, "inet_aton() failed\n");
+    }
+    
+    // Create a UDP socket
+    if((udpSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1) {
+        fprintf(stderr, "Socket init failed.\n");
+    }
+    
+    struct timeval tv;
+    tv.tv_sec = 5;
+    tv.tv_usec = 0;
+    
+    if(setsockopt(udpSocket, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)) < 0) {
+        fprintf(stderr, "Could not set timeout on socket.\n");
+    }
+    
+    // zero out the structure
+    memset((char *)&si_me, 0, sizeof(si_me));
+    si_me.sin_family = AF_INET;
+    si_me.sin_port = htons(LOCAL_SERVER_PORT);
+    si_me.sin_addr.s_addr = htonl(INADDR_ANY);
+    
+    //bind socket to port
+    if(bind(udpSocket, (struct sockaddr*)&si_me, sizeof(si_me)) == -1) {
+        fprintf(stderr, "Binding socket failed\n");
+    }
+    
+    udpinit = true;
+    
+    //data backup file initialisation**********************************
+    
+    FILE* fichier = NULL;
+    
+    fichier = fopen("data1.txt", "w");
+    
+    fprintf(fichier,"\n\n\n\n\n\n*** New Data serie ***\n");
+    
+    //*****************************************************************
+    
+    printf("\033[4;1H**Ready to receive**\n");
+    
+    clock_gettime(CLOCK_REALTIME,&nextdisplay);
+    
+    //keep listening for data
+    while(!quitServer) {
+        fflush(stdout); 
+        memset(&buffer, 0, sizeof(buffer)); //clean buffer
+        
+        //try to receive some data, this is a blocking call
+        if((recv_len = recvfrom(udpSocket, &buffer, BUFFER_SIZE, 0, (struct sockaddr *)&si_other, (socklen_t*)&slen)) == -1) {
+            fprintf(stderr, "Data reception failed %d\n", errno);
+        }
+        
+        patternData[0] = buffer.pattern[0];
+        patternData[1] = buffer.pattern[1];
+        patternData[2] = buffer.pattern[2];
+        
+        // TODO: Changer les id sur les cameras pour retirer le -1.
+        buffer.camera_id -= 1;
+        
+        camMsgId = buffer.camera_id;
+        if(buffer.camera_id < 0 || buffer.camera_id > NOMBRECAM) {
+            perror("wrong camMsgId\n");
+        }
+        
+        clock_gettime(CLOCK_REALTIME, &messagetime);
+        
+        pthread_mutex_lock(&mutex_udpin);
+        memcpy(&(reciveddata[camMsgId].buffer), &buffer, sizeof(buffer));
+        reciveddata[camMsgId].modified = true;
+        reciveddata[camMsgId].expire = messagetime;
+        pthread_mutex_unlock(&mutex_udpin);
+        
+        //Input terminal printing-----------------------------------
+        
+        if(((messagetime.tv_sec > nextdisplay.tv_sec) || ((messagetime.tv_nsec > nextdisplay.tv_nsec) && (messagetime.tv_sec >= nextdisplay.tv_sec)))) {
+            nextdisplay.tv_nsec = messagetime.tv_nsec + DISPLAYRATE;
+            nextdisplay.tv_sec = messagetime.tv_sec;
+            if(nextdisplay.tv_nsec > NTOSECOND) {
+                nextdisplay.tv_nsec = nextdisplay.tv_nsec - NTOSECOND;
+                nextdisplay.tv_sec++;
+            }
+            //displayData(buffer);
+            printterminal();
+        }
+        
+        //begin write backupo data on file*****************************
+        fprintf(fichier, "%d ", buffer.camera_id);
+        for(int i1 = 0; (i1 < NOMBREBALLS); i1++) {
+            if(buffer.boules[i1].boule_id != 0) {
+                for(int i2 = 0; (i2 < NOMBREDATA); i2++) {
+                    fprintf(fichier, "%d ", buffer.boules[i1].boule_data[i2]);
+                }
+            }
+        }
+        fputc('\n', fichier);
+        //end write backup of data on file*****************************
+        
+        sendPosition(udpSocket, si_robot, msntorobot[0], msntorobot[1], msntorobot[2]);
+        sendPosition(udpSocket, si_robot, msntorobot[4], msntorobot[5], msntorobot[6]);
+    }
+    fclose(fichier);
+    // fermeture du socket
+    close(udpSocket);
+    pthread_exit(NULL);
+}
+
+void sendPosition(int udpSocket, struct sockaddr_in si_robot, char robotId, short x, short y)
+{
+    char data[6];
+    data[0] = 4;
+    data[1] = robotId;
+    *((short*)(data + 2)) = x;
+    *((short*)(data + 4)) = y;
+    
+    if(sendto(udpSocket, data, sizeof(data), 0, (struct sockaddr *)&si_robot, sizeof(si_robot)) == -1) {
+        fprintf(stderr, "Sending robot position failed %d.\n", errno);
+    }
+}
