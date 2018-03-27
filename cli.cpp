@@ -20,14 +20,14 @@ void printterminal(void){
       }
   
       strcat(terminalbuffer,tempbuffer);
-      sprintf(tempbuffer, "%d\t", reciveddatabackup[camNbr].buffer.camera_id);
+      sprintf(tempbuffer, "%d", reciveddatabackup[camNbr].buffer.camera_id);
       strcat(terminalbuffer,tempbuffer);
       for (int i1 = 0;(i1<NOMBREBALLS); i1++){
         if(reciveddatabackup[camNbr].buffer.boules[i1].boule_id!=0){
-          sprintf(tempbuffer, "%d\t", reciveddatabackup[camNbr].buffer.boules[i1].boule_id);
+          sprintf(tempbuffer, "\tball%d", reciveddatabackup[camNbr].buffer.boules[i1].boule_id);
           strcat(terminalbuffer,tempbuffer);
           for(int i2 = 0;(i2<NOMBREDATA-4); i2++){
-              sprintf(tempbuffer, "%d\t", reciveddatabackup[camNbr].buffer.boules[i1].boule_data[i2]);
+              sprintf(tempbuffer, " %d", reciveddatabackup[camNbr].buffer.boules[i1].boule_data[i2]);
               strcat(terminalbuffer,tempbuffer);
           }
         }

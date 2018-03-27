@@ -66,11 +66,11 @@ void *udpserverThread(void *t){
     
     //data backup file initialisation**********************************
     
-    FILE* fichier = NULL;
+    FILE* datalog = NULL;
     
-    fichier = fopen("data1.txt", "w");
+    datalog = fopen("data1.txt", "w");
     
-    fprintf(fichier,"\n\n\n\n\n\n*** New Data serie ***\n");
+    fprintf(datalog,"\n\n\n\n\n\n*** New Data serie ***\n");
     
     //*****************************************************************
     
@@ -91,12 +91,9 @@ void *udpserverThread(void *t){
         patternData[0] = buffer.pattern[0];
         patternData[1] = buffer.pattern[1];
         patternData[2] = buffer.pattern[2];
-        
-        // TODO: Changer les id sur les cameras pour retirer le -1.
-        buffer.camera_id -= 1;
-        
-        camMsgId = buffer.camera_id;
-        if(buffer.camera_id < 0 || buffer.camera_id > NOMBRECAM) {
+                
+        camMsgId = buffer.camera_id-1;
+        if(camMsgId < 0 || camMsgId > NOMBRECAM) {
             perror("wrong camMsgId\n");
         }
         
@@ -122,21 +119,21 @@ void *udpserverThread(void *t){
         }
         
         //begin write backupo data on file*****************************
-        fprintf(fichier, "%d ", buffer.camera_id);
+        fprintf(datalog, "%d ", buffer.camera_id);
         for(int i1 = 0; (i1 < NOMBREBALLS); i1++) {
             if(buffer.boules[i1].boule_id != 0) {
                 for(int i2 = 0; (i2 < NOMBREDATA); i2++) {
-                    fprintf(fichier, "%d ", buffer.boules[i1].boule_data[i2]);
+                    fprintf(datalog, "%d ", buffer.boules[i1].boule_data[i2]);
                 }
             }
         }
-        fputc('\n', fichier);
+        fputc('\n', datalog);
         //end write backup of data on file*****************************
         
         sendPosition(udpSocket, si_robot, msntorobot[0], msntorobot[1], msntorobot[2]);
         sendPosition(udpSocket, si_robot, msntorobot[4], msntorobot[5], msntorobot[6]);
     }
-    fclose(fichier);
+    fclose(datalog);
     // fermeture du socket
     close(udpSocket);
     pthread_exit(NULL);
