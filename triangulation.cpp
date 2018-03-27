@@ -123,22 +123,11 @@ void *calcPosVect(void *t) {
             if(reciveddatabackup[i1].modified) {
                 if(((nowdiff.tv_sec < reciveddatabackup[i1].expire.tv_sec) || ((nowdiff.tv_nsec < reciveddatabackup[i1].expire.tv_nsec) && (nowdiff.tv_sec <= reciveddatabackup[i1].expire.tv_sec)))) {
                     for(int i2 = 0; i2 < NOMBREBALLS; i2++) {
-                        switch(reciveddatabackup[i1].buffer.boules[i2].boule_id) {
-                            break;
-                            case 463:
-                            ballident = 0;
-                                break;
-                            case 464:
-                            ballident = 1;
-                                break;
-                            case 465:
-                                ballident = 2;
-                                break;
-                            case 466:
-                                ballident = 3;
-                                break;
-                            default:
-                                ballident = 99;
+                        if((reciveddatabackup[i1].buffer.boules[i2].boule_id>0)&&(reciveddatabackup[i1].buffer.boules[i2].boule_id<NOMBREBALLS)) {
+                            ballident = reciveddatabackup[i1].buffer.boules[i2].boule_id - 1;
+                        }
+                        else{
+                            ballident = 99;
                         }
                         
                         if((ballident >= 0) && (ballident < NOMBREBALLS)) {
