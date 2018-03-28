@@ -2,7 +2,7 @@
 #include "triangulation.h"
 
 void printterminal(void){
-    char tempbuffer[20];
+    char tempbuffer[50];
     char terminalbuffer[2000];
     bzero(terminalbuffer, sizeof(terminalbuffer));
 
@@ -33,14 +33,19 @@ void printterminal(void){
         }
       }
     }
-    sprintf(tempbuffer, "\033[17;1H\033[Jtic %d\n", tic);				//clean terminal line
+    sprintf(tempbuffer, "\033[17;1H\033[2Ktic %d\n", tic);				//clean terminal line
     strcat(terminalbuffer, tempbuffer);
     
-    sprintf(tempbuffer, "\033[19;1H%d %d %d\n%d %d %d\n%d %d %d\n%d %d %d\n", msntorobot[0], msntorobot[1], msntorobot[2], msntorobot[4], msntorobot[5], msntorobot[6], msntorobot[8], msntorobot[9],
-        msntorobot[10], msntorobot[12], msntorobot[13], msntorobot[14]);
+    sprintf(tempbuffer, "\033[19;1H\033[2K%d %d %d\n", msntorobot[0], msntorobot[1], msntorobot[2]);
+    strcat(terminalbuffer, tempbuffer);
+    sprintf(tempbuffer, "\033[20;1H\033[2K%d %d %d\n", msntorobot[4], msntorobot[5], msntorobot[6]);       
+    strcat(terminalbuffer, tempbuffer);
+    sprintf(tempbuffer, "\033[21;1H\033[2K%d %d %d\n", msntorobot[8], msntorobot[9], msntorobot[10]); 
+    strcat(terminalbuffer, tempbuffer);
+    sprintf(tempbuffer, "\033[22;1H\033[2K%d %d %d\n", msntorobot[12], msntorobot[13], msntorobot[14]);
     strcat(terminalbuffer, tempbuffer);
 
-     sprintf(tempbuffer, "\033[28;1H%s\n", upd_err_msg);
+     sprintf(tempbuffer, "\033[28;1H\033[2K%s\n", upd_err_msg);
     strcat(terminalbuffer, tempbuffer);
     
     printf("%s\n", terminalbuffer);
