@@ -16,7 +16,7 @@ void printterminal(void){
         case 5: sprintf(tempbuffer,"\033[13;1H\033[2K"); break;
         case 6: sprintf(tempbuffer,"\033[14;1H\033[2K"); break;
         case 7: sprintf(tempbuffer,"\033[15;1H\033[2K"); break;
-        default: 
+        default: break;
       }
   
       strcat(terminalbuffer,tempbuffer);
