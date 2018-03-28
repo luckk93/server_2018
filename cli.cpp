@@ -45,7 +45,7 @@ void printterminal(void){
     sprintf(tempbuffer, "\033[22;1H\033[2K%d %d %d\n", msntorobot[12], msntorobot[13], msntorobot[14]);
     strcat(terminalbuffer, tempbuffer);
 
-     sprintf(tempbuffer, "\033[28;1H\033[2K%s\n", upd_err_msg);
+     sprintf(tempbuffer, "\033[24;1H\033[2K%s\n", upd_err_msg);
     strcat(terminalbuffer, tempbuffer);
     
     printf("%s\n", terminalbuffer);
