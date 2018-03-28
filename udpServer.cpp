@@ -83,25 +83,43 @@ void *udpserverThread(void *t){
         if((recv_len = recvfrom(udpSocket, &buffer, BUFFER_SIZE, 0, (struct sockaddr *)&si_other, (socklen_t*)&slen)) == -1) {
             sprintf(upd_err_msg, "Data reception failed %d.", errno);
         }
-        
-        patternData[0] = buffer.pattern[0];
-        patternData[1] = buffer.pattern[1];
-        patternData[2] = buffer.pattern[2];
-                
-        camMsgId = buffer.camera_id-1;
-        if(camMsgId < 0 || camMsgId > NOMBRECAM) {
-            perror("wrong camMsgId.");
+        else{
+            patternData[0] = buffer.pattern[0];
+            patternData[1] = buffer.pattern[1];
+            patternData[2] = buffer.pattern[2];
+                    
+            camMsgId = buffer.camera_id-1;
+            if(camMsgId < 0 || camMsgId > NOMBRECAM) {
+                sprintf(upd_err_msg,"wrong camMsgId.");
+            }
+    
+            clock_gettime(CLOCK_REALTIME, &messagetime);
+            
+            pthread_mutex_lock(&mutex_udpin);
+            memcpy(&(reciveddata[camMsgId].buffer), &buffer, sizeof(buffer));
+            reciveddata[camMsgId].modified = true;
+            reciveddata[camMsgId].expire = messagetime;
+            pthread_mutex_unlock(&mutex_udpin);
+            
+            
+            
+            
+            //begin write backupo data on file*****************************
+            fprintf(datalog, "%d ", buffer.camera_id);
+            for(int i1 = 0; (i1 < NOMBREBALLS); i1++) {
+                if(buffer.boules[i1].boule_id != 0) {
+                    for(int i2 = 0; (i2 < NOMBREDATA); i2++) {
+                        fprintf(datalog, "%d ", buffer.boules[i1].boule_data[i2]);
+                    }
+                }
+            }
+            fputc('\n', datalog);
+            //end write backup of data on file*****************************
+
         }
-        
-        clock_gettime(CLOCK_REALTIME, &messagetime);
-        
-        pthread_mutex_lock(&mutex_udpin);
-        memcpy(&(reciveddata[camMsgId].buffer), &buffer, sizeof(buffer));
-        reciveddata[camMsgId].modified = true;
-        reciveddata[camMsgId].expire = messagetime;
-        pthread_mutex_unlock(&mutex_udpin);
-        
+
         //Input terminal printing-----------------------------------
+        clock_gettime(CLOCK_REALTIME, &messagetime);
         
         if(((messagetime.tv_sec > nextdisplay.tv_sec) || ((messagetime.tv_nsec > nextdisplay.tv_nsec) && (messagetime.tv_sec >= nextdisplay.tv_sec)))) {
             nextdisplay.tv_nsec = messagetime.tv_nsec + DISPLAYRATE;
@@ -113,19 +131,7 @@ void *udpserverThread(void *t){
             //displayData(buffer);
             printterminal();
         }
-        
-        //begin write backupo data on file*****************************
-        fprintf(datalog, "%d ", buffer.camera_id);
-        for(int i1 = 0; (i1 < NOMBREBALLS); i1++) {
-            if(buffer.boules[i1].boule_id != 0) {
-                for(int i2 = 0; (i2 < NOMBREDATA); i2++) {
-                    fprintf(datalog, "%d ", buffer.boules[i1].boule_data[i2]);
-                }
-            }
-        }
-        fputc('\n', datalog);
-        //end write backup of data on file*****************************
-        
+
         sendPosition(udpSocket, si_robot, msntorobot[0], msntorobot[1], msntorobot[2]);
         sendPosition(udpSocket, si_robot, msntorobot[4], msntorobot[5], msntorobot[6]);
     }
