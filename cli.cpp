@@ -33,11 +33,14 @@ void printterminal(void){
         }
       }
     }
-    sprintf(tempbuffer, "\033[25;1H\033[Jtic %d\n", tic);				//clean terminal line
+    sprintf(tempbuffer, "\033[24;1H\033[Jtic %d", tic);				//clean terminal line
     strcat(terminalbuffer, tempbuffer);
     
-    sprintf(tempbuffer, "\033[27;1H%d %d %d\n%d %d %d\n%d %d %d\n%d %d %d\n", msntorobot[0], msntorobot[1], msntorobot[2], msntorobot[4], msntorobot[5], msntorobot[6], msntorobot[8], msntorobot[9],
+    sprintf(tempbuffer, "\033[26;1H%d %d %d\n%d %d %d\n%d %d %d\n%d %d %d", msntorobot[0], msntorobot[1], msntorobot[2], msntorobot[4], msntorobot[5], msntorobot[6], msntorobot[8], msntorobot[9],
         msntorobot[10], msntorobot[12], msntorobot[13], msntorobot[14]);
+    strcat(terminalbuffer, tempbuffer);
+
+     sprintf(tempbuffer, "\033[26;1H%s", upd_err_msg);
     strcat(terminalbuffer, tempbuffer);
     
     printf("%s\n", terminalbuffer);

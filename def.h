@@ -119,4 +119,6 @@ extern bool udpinit;
 
 extern pthread_mutex_t mutex_udpin;
 
+extern char upd_err_msg[100];
+
 #endif

@@ -6,13 +6,9 @@
 #include <time.h>
 #include "tcpClient.h"
 
-void error(const char *msg)
-{
-    perror(msg);
-    exit(1);
-}
-
 int patternData[3];
+
+char upd_err_msg[100];
 
 stampdata reciveddata[NOMBRECAM];
 
@@ -35,20 +31,20 @@ void *udpserverThread(void *t){
     si_robot.sin_family = AF_INET;
     si_robot.sin_port = htons(ROBOT_PORT);
     if(inet_aton(ROBOT_IP, &si_robot.sin_addr) == 0) {
-        fprintf(stderr, "inet_aton() failed\n");
+        sprintf(upd_err_msg, "inet_aton() failed\n");
     }
     
     // Create a UDP socket
     if((udpSocket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1) {
-        fprintf(stderr, "Socket init failed.\n");
+        sprintf(upd_err_msg, "Socket init failed.");
     }
     
     struct timeval tv;
-    tv.tv_sec = 5;
-    tv.tv_usec = 0;
+    tv.tv_sec = 0;
+    tv.tv_usec = 100000;
     
     if(setsockopt(udpSocket, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)) < 0) {
-        fprintf(stderr, "Could not set timeout on socket.\n");
+        sprintf(upd_err_msg, "Could not set timeout on socket.");
     }
     
     // zero out the structure
@@ -59,7 +55,7 @@ void *udpserverThread(void *t){
     
     //bind socket to port
     if(bind(udpSocket, (struct sockaddr*)&si_me, sizeof(si_me)) == -1) {
-        fprintf(stderr, "Binding socket failed\n");
+        sprintf(upd_err_msg, "Binding socket failed.");
     }
     
     udpinit = true;
@@ -85,7 +81,7 @@ void *udpserverThread(void *t){
         
         //try to receive some data, this is a blocking call
         if((recv_len = recvfrom(udpSocket, &buffer, BUFFER_SIZE, 0, (struct sockaddr *)&si_other, (socklen_t*)&slen)) == -1) {
-            fprintf(stderr, "Data reception failed %d\n", errno);
+            sprintf(upd_err_msg, "Data reception failed %d.", errno);
         }
         
         patternData[0] = buffer.pattern[0];
@@ -94,7 +90,7 @@ void *udpserverThread(void *t){
                 
         camMsgId = buffer.camera_id-1;
         if(camMsgId < 0 || camMsgId > NOMBRECAM) {
-            perror("wrong camMsgId\n");
+            perror("wrong camMsgId.");
         }
         
         clock_gettime(CLOCK_REALTIME, &messagetime);
@@ -148,6 +144,6 @@ void sendPosition(int udpSocket, struct sockaddr_in si_robot, char robotId, shor
     *((short*)(data + 4)) = y;
     
     if(sendto(udpSocket, data, sizeof(data), 0, (struct sockaddr *)&si_robot, sizeof(si_robot)) == -1) {
-        fprintf(stderr, "Sending robot position failed %d.\n", errno);
+        sprintf(upd_err_msg, "Sending robot position failed %d.", errno);
     }
 }
