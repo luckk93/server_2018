@@ -123,7 +123,7 @@ void *calcPosVect(void *t) {
             if(reciveddatabackup[i1].modified) {
                 if(((nowdiff.tv_sec < reciveddatabackup[i1].expire.tv_sec) || ((nowdiff.tv_nsec < reciveddatabackup[i1].expire.tv_nsec) && (nowdiff.tv_sec <= reciveddatabackup[i1].expire.tv_sec)))) {
                     for(int i2 = 0; i2 < NOMBREBALLS; i2++) {
-                        if((reciveddatabackup[i1].buffer.boules[i2].boule_id>0)&&(reciveddatabackup[i1].buffer.boules[i2].boule_id<NOMBREBALLS)) {
+                        if((reciveddatabackup[i1].buffer.boules[i2].boule_id>0)&&(reciveddatabackup[i1].buffer.boules[i2].boule_id<=NOMBREBALLS)) {
                             ballident = reciveddatabackup[i1].buffer.boules[i2].boule_id - 1;
                         }
                         else{
@@ -134,7 +134,7 @@ void *calcPosVect(void *t) {
                             rotcos = camPos[i1].camcos;
                             rotsin = camPos[i1].camsin;
                             
-                            camInclY = HALFWIDTH - ((reciveddatabackup[i1].buffer.boules[i2].boule_data[3] + reciveddatabackup[i1].buffer.boules[i2].boule_data[1]) >> 1);
+                            camInclY = (float)(HALFWIDTH - ((reciveddatabackup[i1].buffer.boules[i2].boule_data[3] + reciveddatabackup[i1].buffer.boules[i2].boule_data[1]) >> 1));
                             lastdata[ballident][i1].x = camPos[i1].x;
                             lastdata[ballident][i1].y = camPos[i1].y;
                             lastdata[ballident][i1].expire = reciveddatabackup[i1].expire;
@@ -197,6 +197,7 @@ void *calcPosVect(void *t) {
                 posRobot[i1].y = round(yTemp / valuenumber);
             }
         }
+        
         //  grand robot ennemi
         msntorobot[0] = 1;
         msntorobot[1] = posRobot[0].x;
