@@ -84,6 +84,7 @@ void *calcPosVect(void *t) {
     
     while(!quitServer) {
         
+        memset(&reciveddatabackup, 0, sizeof(reciveddatabackup));
         pthread_mutex_lock(&mutex_udpin);
         for(int i1 = 0; i1 < NOMBRECAM; i1++) {
             if(reciveddata[i1].modified){
@@ -196,10 +197,9 @@ void *calcPosVect(void *t) {
             }
         }
         
-
+        memset(msntorobot,0,sizeof(msntorobot));
         if(modflag){
 
-            memset(msntorobot,0,sizeof(msntorobot));
             //  grand robot ennemi
             msntorobot[0] = 1;
             msntorobot[1] = posRobot[0].x;
