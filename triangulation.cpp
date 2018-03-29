@@ -72,7 +72,7 @@ void *calcPosVect(void *t) {
     
     bzero(ballvct, sizeof(ballvct));
     bzero(ballpst, sizeof(ballpst));
-    bzero(reciveddata, sizeof(reciveddatabackup));
+    bzero(reciveddata, sizeof(reciveddata));
     bzero(lastdata, sizeof(lastdata));
     bzero(vectmodify, sizeof(vectmodify));
     bzero(msntorobot, sizeof(msntorobot));
@@ -85,9 +85,12 @@ void *calcPosVect(void *t) {
     while(!quitServer) {
         
         pthread_mutex_lock(&mutex_udpin);
-        memcpy(&reciveddatabackup, &reciveddata, sizeof(reciveddata));
         for(int i1 = 0; i1 < NOMBRECAM; i1++) {
-            reciveddata[i1].modified = false;
+            if(reciveddata[i1].modified){
+                memcpy(&(reciveddatabackup[i1]), &(reciveddata[i1]), sizeof(reciveddata[i1]));
+                memset(reciveddata[i1], 0, sizeof(reciveddata[i1]));
+                reciveddata[i1].modified = false;
+            }
         }
         pthread_mutex_unlock(&mutex_udpin);
         
@@ -103,14 +106,9 @@ void *calcPosVect(void *t) {
         
         for(int ball = 0; ball < NOMBREBALLS; ball++) {
             for(int camera = 0; camera < NOMBRECAM; camera++) {
-                if(
-                    (
-                        (nowdiff.tv_sec > lastdata[ball][camera].expire.tv_sec) ||
-                        (
-                            (nowdiff.tv_nsec > lastdata[ball][camera].expire.tv_nsec) && (nowdiff.tv_sec >= lastdata[ball][camera].expire.tv_sec)
-                        )
-                    )
-                )
+                if(((nowdiff.tv_sec > lastdata[ball][camera].expire.tv_sec) ||
+                ((nowdiff.tv_nsec > lastdata[ball][camera].expire.tv_nsec) && 
+                (nowdiff.tv_sec >= lastdata[ball][camera].expire.tv_sec))))
                     lastdata[ball][camera].active = false;
                 else
                     lastdata[ball][camera].active = true;
@@ -198,27 +196,33 @@ void *calcPosVect(void *t) {
             }
         }
         
-        //  grand robot ennemi
-        msntorobot[0] = 1;
-        msntorobot[1] = posRobot[0].x;
-        msntorobot[2] = posRobot[0].y;
-        //msntorobot[3]=0;
-        
-        // petit robot ennemi
-        msntorobot[4] = 2;
-        msntorobot[5] = posRobot[1].x;
-        msntorobot[6] = posRobot[1].y;
-        //msntorobot[7]=0;
-        
-        // grand robot allié
-        msntorobot[8] = 3;
-        msntorobot[9] = posRobot[2].x;
-        msntorobot[10] = posRobot[2].y;
-        
-        // petit robot allié
-        msntorobot[12] = 4;
-        msntorobot[13] = posRobot[3].x;
-        msntorobot[14] = posRobot[3].y;
+
+        if(modflag){
+
+            memset(msntorobot,0,sizeof(msntorobot));
+            //  grand robot ennemi
+            msntorobot[0] = 1;
+            msntorobot[1] = posRobot[0].x;
+            msntorobot[2] = posRobot[0].y;
+            //msntorobot[3]=0;
+            
+            // petit robot ennemi
+            msntorobot[4] = 2;
+            msntorobot[5] = posRobot[1].x;
+            msntorobot[6] = posRobot[1].y;
+            //msntorobot[7]=0;
+            
+            // grand robot allié
+            msntorobot[8] = 3;
+            msntorobot[9] = posRobot[2].x;
+            msntorobot[10] = posRobot[2].y;
+            
+            // petit robot allié
+            msntorobot[12] = 4;
+            msntorobot[13] = posRobot[3].x;
+            msntorobot[14] = posRobot[3].y;
+
+        }
         
         /**************************************************************************************/
         clock_gettime(CLOCK_REALTIME, &stop);

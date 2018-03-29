@@ -99,9 +99,7 @@ void *udpserverThread(void *t){
             memcpy(&(reciveddata[camMsgId].buffer), &buffer, sizeof(buffer));
             reciveddata[camMsgId].modified = true;
             reciveddata[camMsgId].expire = messagetime;
-            pthread_mutex_unlock(&mutex_udpin);
-            
-            
+            pthread_mutex_unlock(&mutex_udpin);            
             
             
             //begin write backupo data on file*****************************
