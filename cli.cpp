@@ -49,4 +49,8 @@ void printterminal(void){
     strcat(terminalbuffer, tempbuffer);
     
     printf("%s\n", terminalbuffer);
+
+    memset(&reciveddatabackup, 0, sizeof(reciveddatabackup));
+    memset(msntorobot,0,sizeof(msntorobot));       
+    
 }
