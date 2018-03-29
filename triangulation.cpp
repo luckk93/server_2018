@@ -194,34 +194,36 @@ void *calcPosVect(void *t) {
                 posRobot[i1].x = round(xTemp / valuenumber);
                 posRobot[i1].y = round(yTemp / valuenumber);
             }
+            else{
+                posRobot[i1].x = 0;
+                posRobot[i1].y = 0;
+            }
         }
         
         
-        if(modflag){
-            
-            //  grand robot ennemi
-            msntorobot[0] = 1;
-            msntorobot[1] = posRobot[0].x;
-            msntorobot[2] = posRobot[0].y;
-            //msntorobot[3]=0;
-            
-            // petit robot ennemi
-            msntorobot[4] = 2;
-            msntorobot[5] = posRobot[1].x;
-            msntorobot[6] = posRobot[1].y;
-            //msntorobot[7]=0;
-            
-            // grand robot allié
-            msntorobot[8] = 3;
-            msntorobot[9] = posRobot[2].x;
-            msntorobot[10] = posRobot[2].y;
-            
-            // petit robot allié
-            msntorobot[12] = 4;
-            msntorobot[13] = posRobot[3].x;
-            msntorobot[14] = posRobot[3].y;
 
-        }
+        //  grand robot ennemi
+        msntorobot[0] = 1;
+        msntorobot[1] = posRobot[0].x;
+        msntorobot[2] = posRobot[0].y;
+        //msntorobot[3]=0;
+        
+        // petit robot ennemi
+        msntorobot[4] = 2;
+        msntorobot[5] = posRobot[1].x;
+        msntorobot[6] = posRobot[1].y;
+        //msntorobot[7]=0;
+        
+        // grand robot allié
+        msntorobot[8] = 3;
+        msntorobot[9] = posRobot[2].x;
+        msntorobot[10] = posRobot[2].y;
+        
+        // petit robot allié
+        msntorobot[12] = 4;
+        msntorobot[13] = posRobot[3].x;
+        msntorobot[14] = posRobot[3].y;
+
         
         /**************************************************************************************/
         clock_gettime(CLOCK_REALTIME, &stop);
