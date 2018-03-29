@@ -21,7 +21,7 @@ clean:
 -include $(DEP)
 
 %.o: %.cpp
-	$(CC) $(CFLAGS) -c -MMD -o $@ $<
+	$(CC) $(CFLAGS) -g -c -MMD -o $@ $<
 
 %_display.o: %.cpp	
 	$(CC) $(CFLAGS) -c -MMD -DDISPLAY -o $@ $<
