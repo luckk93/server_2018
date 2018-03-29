@@ -134,7 +134,7 @@ void *calcPosVect(void *t) {
                             rotcos = camPos[i1].camcos;
                             rotsin = camPos[i1].camsin;
                             
-                            camInclY = (float)(HALFWIDTH - ((reciveddatabackup[i1].buffer.boules[i2].boule_data[3] + reciveddatabackup[i1].buffer.boules[i2].boule_data[1]) >> 1));
+                            camInclY = (float)(HALFWIDTH - (((int)reciveddatabackup[i1].buffer.boules[i2].boule_data[3] + (int)reciveddatabackup[i1].buffer.boules[i2].boule_data[1]) >> 1));
                             lastdata[ballident][i1].x = camPos[i1].x;
                             lastdata[ballident][i1].y = camPos[i1].y;
                             lastdata[ballident][i1].expire = reciveddatabackup[i1].expire;
