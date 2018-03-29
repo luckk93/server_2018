@@ -88,7 +88,7 @@ void *calcPosVect(void *t) {
         for(int i1 = 0; i1 < NOMBRECAM; i1++) {
             if(reciveddata[i1].modified){
                 memcpy(&(reciveddatabackup[i1]), &(reciveddata[i1]), sizeof(reciveddata[i1]));
-                memset(reciveddata[i1], 0, sizeof(reciveddata[i1]));
+                memset(&(reciveddata[i1]), 0, sizeof(reciveddata[i1]));
                 reciveddata[i1].modified = false;
             }
         }
