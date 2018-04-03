@@ -15,6 +15,7 @@
 #include <arpa/inet.h>
 #include <sys/socket.h>
 #include <stdbool.h>
+#include <fstream>
 
 #define NOMBRECAM     8
 #define NOMBREDATA    8
