@@ -37,6 +37,9 @@
 #define NSECEXP   500000000
 #define DISPLAYRATE 100000000
 
+#define XWIDTH 2000
+#define YWIDTH 3000
+
 #define BUFFER_SIZE sizeof(struct data) // taille du buffer 8 unsigned int
 
 // position x et y des balles
