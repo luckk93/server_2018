@@ -17,6 +17,8 @@
 #include <stdbool.h>
 #include <fstream>
 
+using namespace std;
+
 #define NOMBRECAM     8
 #define NOMBREDATA    8
 #define NOMBREBALLS   4

@@ -202,7 +202,7 @@ void *calcPosVect(void *t) {
         
         for(int i1 =0; i1<NOMBREBALLS; i1++){
         	if(posRobot[i1].x<0||posRobot[i1].x>XWIDTH||posRobot[i1].y<0||posRobot[i1].y>YWIDTH){
-    			std::ofstream ofs;
+    			ofstream ofs;
     			ofs.open ("outball.info", std::ofstream::out);
     			ofs << "result " << posRobot[i1].x << " " << posRobot[i1].y << endl;
     			for(int i2 = 0; i2 < NOMBRECAM; i2++) {
