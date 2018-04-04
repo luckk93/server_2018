@@ -157,7 +157,8 @@ void closeInterface()
 }
 
 void myDrawLine(float x1,float y1,float x2, float y2){
-  float deltax=x2-x1,deltay=y2-y1;
+  float deltax=float(x2-x1);
+  float deltay=float(y2-y1);
   int i=0;
   float prop;
   if(abs(deltax)>=abs(deltay)){
