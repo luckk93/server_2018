@@ -160,10 +160,10 @@ void sendPosition(int udpSocket, struct sockaddr_in si_robot, char robotId, shor
     }
 }
 
-sendCatData(){
+void sendCatData(){
     
 }
 
-getCatData(){
+void getCatData(){
 
 }
