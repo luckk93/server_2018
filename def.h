@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include <netinet/in.h>
 #include <netdb.h>
-#include <math.h>
+#include <cmath>
 #include <time.h> 
 #include <signal.h>
 #include <arpa/inet.h>
