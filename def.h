@@ -95,12 +95,20 @@ struct boule {
     unsigned int boule_id;
     unsigned int boule_data[8];
 };
-struct data {
-    unsigned int camera_id;
-    struct boule boules[6];
-    int pattern[3];
-    
-};
+
+struct cat_info{
+    int x;
+    int y;
+    int red;
+    int blue;
+  } ;
+  
+  struct data {
+  unsigned int camera_id;
+  boule boules[6];
+  int pattern[3];
+  cat_info cat_data;
+  };
 
 typedef struct {
     data buffer;

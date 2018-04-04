@@ -40,7 +40,7 @@ SDL_Renderer* renderer = NULL;
 SDL_Texture *newTexture=NULL;
 SDL_Texture *gTexture=NULL;
 
-int ballcolor[NOMBREBALLS][3] = { { 255, 0, 0 }, { 0, 255, 0 }, { 0, 0, 255 }, { 255, 255, 0 } };
+int ballcolor[NOMBREBALLS][3] = { { 255, 255, 0 }, { 255, 51, 153 }, { 51, 204, 51 }, { 255, 51, 0 } };
 
 SDL_Event e;
 

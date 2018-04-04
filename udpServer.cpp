@@ -84,6 +84,14 @@ void *udpserverThread(void *t){
             sprintf(upd_err_msg, "Data reception failed %d.", errno);
         }
         else{
+
+            if(buffer.cat_data.red==0){
+                sendCatData();
+            }
+            else{
+                getCatData();
+            }
+
             patternData[0] = buffer.pattern[0];
             patternData[1] = buffer.pattern[1];
             patternData[2] = buffer.pattern[2];
@@ -150,4 +158,12 @@ void sendPosition(int udpSocket, struct sockaddr_in si_robot, char robotId, shor
     if(sendto(udpSocket, data, sizeof(data), 0, (struct sockaddr *)&si_robot, sizeof(si_robot)) == -1) {
         sprintf(upd_err_msg, "Sending robot position failed %d.", errno);
     }
+}
+
+sendCatData(){
+    
+}
+
+getCatData(){
+
 }
