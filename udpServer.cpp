@@ -17,6 +17,8 @@ stampdata reciveddata[NOMBRECAM];
 #define LOCAL_SERVER_PORT 8888
 
 void sendPosition(int udpSocket, struct sockaddr_in si_robot, char robotId, short x, short y);
+void sendCatData();
+void getCatData();
 
 void *udpserverThread(void *t){
     struct sockaddr_in si_me, si_other, si_robot;
