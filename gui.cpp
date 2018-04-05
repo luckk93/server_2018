@@ -391,7 +391,7 @@ void interfaceMainLoop(){
       SDL_SetRenderDrawColor(renderer,ballcolor[i1][0],ballcolor[i1][1],ballcolor[i1][2],0);
       for(i2=0;i2<NOMBRECAM;i2++){
         if(lastdata[i1][i2].active){
-          if((lastdata[i1][i2].x<0)&&(lastdata[i1][i2].y<0)){
+          if((lastdata[i1][i2].x<100)&&(lastdata[i1][i2].y<0)){
             tempvect=(lastdata[i1][i2].incliny/lastdata[i1][i2].inclinx)*(2000-lastdata[i1][i2].x)+lastdata[i1][i2].y;
             if((tempvect>=0)&&(tempvect<=3000)){
               vectx=2000;
@@ -403,7 +403,7 @@ void interfaceMainLoop(){
             }
             SDL_RenderDrawLine(renderer,100+(lastdata[i1][i2].y>>1),100+(lastdata[i1][i2].x>>1),100+(vecty>>1),100+(vectx>>1));
           }
-          else if((lastdata[i1][i2].y<0)&&(lastdata[i1][i2].x>2000)){
+          else if((lastdata[i1][i2].y<0)&&(lastdata[i1][i2].x>1900)){
             tempvect=(lastdata[i1][i2].incliny/lastdata[i1][i2].inclinx)*(-lastdata[i1][i2].x)+lastdata[i1][i2].y;
             if((tempvect>=0)&&(tempvect<=3000)){
               vectx=0;
