@@ -301,18 +301,18 @@ void interfaceInit(){
     SDL_Rect fieldLine={100,100,1500,1000};
     SDL_SetRenderDrawColor(renderer,0,0,0,255);
     SDL_RenderDrawRect(renderer,&fieldLine);
-    fieldLine.w=40;fieldLine.h=40;
-    fieldLine.x=61;fieldLine.y=61;
+    fieldLine.w=50;fieldLine.h=50;
+    fieldLine.x=28;fieldLine.y=100;
     SDL_RenderDrawRect(renderer,&fieldLine);
-    fieldLine.y=580;
+    fieldLine.y=575;
     SDL_RenderDrawRect(renderer,&fieldLine);
-    fieldLine.y=1099;
+    fieldLine.y=1050;
     SDL_RenderDrawRect(renderer,&fieldLine);
-    fieldLine.x=1599;fieldLine.y=61;
+    fieldLine.x=1622;fieldLine.y=100;
     SDL_RenderDrawRect(renderer,&fieldLine);
-    fieldLine.y=580;
+    fieldLine.y=575;
     SDL_RenderDrawRect(renderer,&fieldLine);
-    fieldLine.y=1099;
+    fieldLine.y=1050;
     SDL_RenderDrawRect(renderer,&fieldLine);
     
     int c1;
