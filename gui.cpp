@@ -302,24 +302,28 @@ void interfaceInit(){
     SDL_SetRenderDrawColor(renderer,0,0,0,255);
     SDL_RenderDrawRect(renderer,&fieldLine);
 
+    //start zones
     fieldLine.w=200;fieldLine.h=325;
     fieldLine.x=100;fieldLine.y=100;
     SDL_RenderDrawRect(renderer,&fieldLine);
     fieldLine.x=1400;
     SDL_RenderDrawRect(renderer,&fieldLine);
 
+    //construction zones
     fieldLine.w=280;fieldLine.h=90;
     fieldLine.x=299;fieldLine.y=100;
     SDL_RenderDrawRect(renderer,&fieldLine);
     fieldLine.x=1121;
     SDL_RenderDrawRect(renderer,&fieldLine);
 
+    //epuration 
     fieldLine.w=300;fieldLine.h=125;
     fieldLine.x=551;fieldLine.y=975;
     SDL_RenderDrawRect(renderer,&fieldLine);
     fieldLine.x=850;
     SDL_RenderDrawRect(renderer,&fieldLine);
 
+    //fontains
     fieldLine.w=50;fieldLine.h=27;
     fieldLine.x=100;fieldLine.y=517;
     SDL_RenderDrawRect(renderer,&fieldLine);
@@ -331,6 +335,7 @@ void interfaceInit(){
     fieldLine.x=1281;
     SDL_RenderDrawRect(renderer,&fieldLine);
 
+    //balises
     fieldLine.w=50;fieldLine.h=50;
     fieldLine.x=28;fieldLine.y=100;
     SDL_RenderDrawRect(renderer,&fieldLine);
@@ -345,16 +350,59 @@ void interfaceInit(){
     fieldLine.y=1050;
     SDL_RenderDrawRect(renderer,&fieldLine);
 
+    //field lines
 	SDL_SetRenderDrawColor(renderer,200,200,200,255);
     SDL_RenderDrawLine(renderer, 100, 260, 650, 260);
     SDL_RenderDrawLine(renderer, 1050, 260, 1600, 260);
     SDL_RenderDrawLine(renderer, 680, 260, 835, 260);
     SDL_RenderDrawLine(renderer, 865, 260, 1020, 260);
+
     SDL_RenderDrawLine(renderer, 100, 290, 390, 290);
     SDL_RenderDrawLine(renderer, 1310, 290, 1600, 290);
     SDL_RenderDrawLine(renderer, 420, 290, 835, 290);
     SDL_RenderDrawLine(renderer, 865, 290, 1280, 290);
+
+    SDL_RenderDrawLine(renderer, 650, 260, 650, 100);
+    SDL_RenderDrawLine(renderer, 680, 260, 680, 100);
+    SDL_RenderDrawLine(renderer, 1050, 260, 1050, 100);
+    SDL_RenderDrawLine(renderer, 1020, 260, 1020, 100);
+
+    SDL_RenderDrawLine(renderer, 835, 260, 835, 240);
+    SDL_RenderDrawLine(renderer, 865, 260, 865, 240);
+    SDL_RenderDrawLine(renderer, 835, 290, 835, 310);
+    SDL_RenderDrawLine(renderer, 865, 290, 865, 310);
+    SDL_RenderDrawLine(renderer, 835, 240, 865, 240);
+	SDL_RenderDrawLine(renderer, 835, 310, 865, 310);
+
+	SDL_RenderDrawLine(renderer, 390, 290, 390, 505);
+	SDL_RenderDrawLine(renderer, 420, 290, 420, 505);
+	SDL_RenderDrawLine(renderer, 1310, 290, 1310, 505);
+	SDL_RenderDrawLine(renderer, 1280, 290, 1280, 505);
+
+	SDL_RenderDrawLine(renderer, 240, 505, 390, 505);
+	SDL_RenderDrawLine(renderer, 420, 505, 535, 505);
+	SDL_RenderDrawLine(renderer, 1310, 505, 1460, 505);
+	SDL_RenderDrawLine(renderer, 1165, 505, 1280, 505);
+
+	SDL_RenderDrawLine(renderer, 240, 505, 240, 535);
+	SDL_RenderDrawLine(renderer, 535, 505, 535, 535);
+	SDL_RenderDrawLine(renderer, 1460, 505, 1460, 535);
+	SDL_RenderDrawLine(renderer, 1165, 505, 1165, 535);
+
+	SDL_RenderDrawLine(renderer, 240, 535, 390, 535);
+	SDL_RenderDrawLine(renderer, 420, 535, 535, 535);
+	SDL_RenderDrawLine(renderer, 1310, 535, 1460, 535);
+	SDL_RenderDrawLine(renderer, 1165, 535, 1280, 535);
+
+	SDL_RenderDrawLine(renderer, 390, 535, 390, 950);
+	SDL_RenderDrawLine(renderer, 420, 535, 420, 950);
+	SDL_RenderDrawLine(renderer, 1310, 535, 1310, 950);
+	SDL_RenderDrawLine(renderer, 1280, 535, 1280, 950);
+
+	SDL_RenderDrawLine(renderer, 390, 950, 420, 950);
+	SDL_RenderDrawLine(renderer, 1280, 950, 1310, 950);
     
+    //cameras
     int c1;
     for(c1=0;c1<8;c1++){
       drawCamera(100+(camPos[c1].y>>1), 100+(camPos[c1].x>>1) ,camPos[c1].camsin,-camPos[c1].camcos);
