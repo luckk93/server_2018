@@ -346,14 +346,14 @@ void interfaceInit(){
     SDL_RenderDrawRect(renderer,&fieldLine);
 
 	SDL_SetRenderDrawColor(renderer,100,100,100,255);
-    SDL_RenderDrawLine(100, 260, 650, 260);
-    SDL_RenderDrawLine(1050, 260, 1600, 260);
-    SDL_RenderDrawLine(680, 260, 835, 260);
-    SDL_RenderDrawLine( 865, 260, 1020, 260);
-    SDL_RenderDrawLine(100, 260, 390, 290);
-    SDL_RenderDrawLine(1310, 260, 1600, 290);
-    SDL_RenderDrawLine(420, 290, 835, 290);
-    SDL_RenderDrawLine( 865, 290, 1280, 290);
+    SDL_RenderDrawLine(renderer, 100, 260, 650, 260);
+    SDL_RenderDrawLine(renderer, 1050, 260, 1600, 260);
+    SDL_RenderDrawLine(renderer, 680, 260, 835, 260);
+    SDL_RenderDrawLine(renderer, 865, 260, 1020, 260);
+    SDL_RenderDrawLine(renderer, 100, 260, 390, 290);
+    SDL_RenderDrawLine(renderer, 1310, 260, 1600, 290);
+    SDL_RenderDrawLine(renderer, 420, 290, 835, 290);
+    SDL_RenderDrawLine(renderer, 865, 290, 1280, 290);
     
     int c1;
     for(c1=0;c1<8;c1++){
