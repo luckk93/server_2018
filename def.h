@@ -24,7 +24,7 @@ using namespace std;
 #define NOMBREBALLS   4
 
 #define PIXELWIDTH 2592 // largeur en pixel de l'image d'une camera
-#define ANGLECAM 53.5 // angle de vue total en largeur
+#define ANGLECAM 53.5 // angle de vue total en largeur  //maybe 54.6
 #define PI 3.1415926535
 
 #define ONEDATASIZE 8 // taille des donnée d'une camera pour une seule balle

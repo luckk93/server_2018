@@ -20,10 +20,10 @@ campos_t camPos[NOMBRECAM] = {
     { 95, -72, 0.906, 0.422 },    // 1
     { 1905, -72, -0.906, 0.422 }, // 2
     { 1928, -49, -0.422, 0.906 },  // 3
-    { 1048, 3057, 0.906, -0.422 },// 4
-    { 1018, 3049, 0.5, -0.866 },  // 5
-    { 982, 3049, -0.5, -0.866 },  // 6
-    { 952, 3057, -0.906, -0.422 },// 7
+    { 1048, 3057, 0.939, -0.342 },// 4
+    { 1018, 3049, 0.342, -0.939 },  // 5
+    { 982, 3049, -0.342, -0.939 },  // 6
+    { 952, 3057, -0.939, -0.342 },// 7
 };
 stampdata reciveddatabackup[NOMBRECAM];
 
@@ -47,9 +47,9 @@ void *calcPosVect(void *t) {
     float rotcos = 0;
     float rotsin = 0;
     
-    static float camMaxSideAngle = 25;
-    const float tanValue = tan(camMaxSideAngle * 3.1415 / 180);
-    const float camInclX = 1296 / tanValue;
+    static float camMaxSideAngle = ANGLECAM/2;
+    static float tanValue = tan(camMaxSideAngle * 3.1415 / 180);
+    static float camInclX = 1296 / tanValue;
     float camInclY = 0;
     
     //array with the ball position, utiliation number and expiration time 
