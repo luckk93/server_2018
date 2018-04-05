@@ -16,8 +16,8 @@ robotpos_t ballpst[NOMBREBALLS][NOMBRECAM][NOMBRECAM];
 int vectnumbr[NOMBREBALLS] = {0};
 int posnumbr[NOMBREBALLS] = {0};
 campos_t camPos[NOMBRECAM] = {
-    { 72, -49, 0.453, 0.891 },    // 0
-    { 95, -72, 0.891, 0.453 },    // 1
+    { 72, -49, 0.374, 0.927 },    // 0
+    { 95, -72, 0.882, 0.469 },    // 1
     { 1905, -72, -0.906, 0.422 }, // 2
     { 1928, -49, -0.422, 0.906 },  // 3
     { 1048, 3057, 0.939, -0.342 },// 4
