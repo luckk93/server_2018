@@ -309,20 +309,20 @@ void interfaceInit(){
     SDL_RenderDrawRect(renderer,&fieldLine);
 
     fieldLine.w=280;fieldLine.h=90;
-    fieldLine.x=300;fieldLine.y=100;
+    fieldLine.x=299;fieldLine.y=100;
     SDL_RenderDrawRect(renderer,&fieldLine);
-    fieldLine.x=1310;
+    fieldLine.x=1120;
     SDL_RenderDrawRect(renderer,&fieldLine);
 
     fieldLine.w=50;fieldLine.h=27;
-    fieldLine.x=100;fieldLine.y=417;
+    fieldLine.x=100;fieldLine.y=517;
     SDL_RenderDrawRect(renderer,&fieldLine);
     fieldLine.x=1575;
     SDL_RenderDrawRect(renderer,&fieldLine);
     fieldLine.w=27;fieldLine.h=50;
-    fieldLine.x=697;fieldLine.y=1075;
+    fieldLine.x=392;fieldLine.y=1050;
     SDL_RenderDrawRect(renderer,&fieldLine);
-    fieldLine.x=1181;
+    fieldLine.x=1281;
     SDL_RenderDrawRect(renderer,&fieldLine);
 
     fieldLine.w=50;fieldLine.h=50;
