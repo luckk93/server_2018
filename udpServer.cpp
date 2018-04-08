@@ -25,8 +25,8 @@ void getCatData();
 
 void *udpserverThread(void *t){
     struct sockaddr_in si_me, si_other, si_robot;
-    int udpSocket; 
-    socklen_t slen = sizeof(si_other), recv_len;
+    int udpSocket, recv_len; 
+    socklen_t slen = sizeof(si_other);
     memset((char *) &si_robot, 0, sizeof(si_robot));
     struct data buffer;
     timespec messagetime, nextdisplay;
@@ -102,13 +102,12 @@ void *udpserverThread(void *t){
 
             if(!((buffer.pattern[0]==0)||(buffer.pattern[0]==0)||(buffer.pattern[0]==0))){
             	if((patternData[0]!=buffer.pattern[0])||(patternData[1]!=buffer.pattern[1])||(patternData[2]!=buffer.pattern[2])){
-            		patternData = buffer.pattern;
+            		patternData[0] = buffer.pattern[0];
+                    patternData[1] = buffer.pattern[1];
+                    patternData[2] = buffer.pattern[2];
             		newPattern=true;
             	}
             }
-            //patternData[0] = buffer.pattern[0];
-            //patternData[1] = buffer.pattern[1];
-            //patternData[2] = buffer.pattern[2];
                     
             camMsgId = buffer.camera_id-1;
             if(camMsgId < 0 || camMsgId > NOMBRECAM) {
