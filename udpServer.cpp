@@ -12,6 +12,8 @@ bool newPattern=false;
 char upd_err_msg[100];
 
 cat_info cat_data;
+struct data buffer;
+cat_info cat_data_save[NOMBRECAM];
 
 stampdata reciveddata[NOMBRECAM];
 
@@ -21,14 +23,12 @@ stampdata reciveddata[NOMBRECAM];
 
 void sendPosition(int udpSocket, struct sockaddr_in si_robot, char robotId, short x, short y);
 void sendCatData();
-void getCatData();
 
 void *udpserverThread(void *t){
     struct sockaddr_in si_me, si_other, si_robot;
-    int udpSocket, recv_len; 
+    int udpSocket, recv_len ; 
     socklen_t slen = sizeof(si_other);
     memset((char *) &si_robot, 0, sizeof(si_robot));
-    struct data buffer;
     timespec messagetime, nextdisplay;
     int camMsgId = 0;
     int cat_data_size = sizeof(cat_info);
@@ -65,6 +65,8 @@ void *udpserverThread(void *t){
         sprintf(upd_err_msg, "Binding socket failed.");
     }
     
+    memset(cat_data_save, 0, sizeof(cat_data_save));
+
     udpinit = true;
     
     //data backup file initialisation**********************************
@@ -92,14 +94,6 @@ void *udpserverThread(void *t){
         }
         else{
 
-            if(buffer.cat_data.red==0){
-                sendCatData();
-                sendto(udpSocket, &cat_data, cat_data_size, 0,(struct sockaddr *)&si_other,slen);
-            }
-            else{
-                getCatData();
-            }
-
             if(!((buffer.pattern[0]==0)||(buffer.pattern[0]==0)||(buffer.pattern[0]==0))){
             	if((patternData[0]!=buffer.pattern[0])||(patternData[1]!=buffer.pattern[1])||(patternData[2]!=buffer.pattern[2])){
             		patternData[0] = buffer.pattern[0];
@@ -113,14 +107,24 @@ void *udpserverThread(void *t){
             if(camMsgId < 0 || camMsgId > NOMBRECAM) {
                 sprintf(upd_err_msg,"wrong camMsgId.");
             }
-    
-            clock_gettime(CLOCK_REALTIME, &messagetime);
-            
-            pthread_mutex_lock(&mutex_udpin);
-            memcpy(&(reciveddata[camMsgId].buffer), &buffer, sizeof(buffer));
-            reciveddata[camMsgId].modified = true;
-            reciveddata[camMsgId].expire = messagetime;
-            pthread_mutex_unlock(&mutex_udpin);            
+            else{
+
+                if(buffer.cat_data.red==0){
+                    sendCatData();
+                    sendto(udpSocket, &cat_data, cat_data_size, 0,(struct sockaddr *)&si_other,slen);
+                }
+                else{
+                    memcpy( &(cat_data_save[camMsgId]), &(buffer.cat_data), sizeof(cat_data));
+                }
+
+                clock_gettime(CLOCK_REALTIME, &messagetime);
+                
+                pthread_mutex_lock(&mutex_udpin);
+                memcpy(&(reciveddata[camMsgId].buffer), &buffer, sizeof(buffer));
+                reciveddata[camMsgId].modified = true;
+                reciveddata[camMsgId].expire = messagetime;
+                pthread_mutex_unlock(&mutex_udpin);  
+            }          
             
             
             //begin write backupo data on file*****************************
@@ -174,9 +178,22 @@ void sendPosition(int udpSocket, struct sockaddr_in si_robot, char robotId, shor
 }
 
 void sendCatData(){
-    
-}
-
-void getCatData(){
-
+    int red_average=0;
+    int blue_average=0;
+    int count=0;
+    for(int i=0; i<NOMBRECAM; i++){
+        if(cat_data_info[i].red!=0){
+            count++;
+            red_average+=cat_data_info[i].red;
+            blue_average+=cat_data_info[i].blue;
+        }
+    }
+    if(count>=1){
+        cat_data.red=red_average/count;
+        cat_data.blue=blue_average/count;
+    }
+    else{
+        cat_data.red=1300;
+        cat_data.blue=2000;
+    }
 }
