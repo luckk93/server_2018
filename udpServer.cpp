@@ -182,10 +182,10 @@ void sendCatData(){
     int blue_average=0;
     int count=0;
     for(int i=0; i<NOMBRECAM; i++){
-        if(cat_data_info[i].red!=0){
+        if(cat_data_save[i].red!=0){
             count++;
-            red_average+=cat_data_info[i].red;
-            blue_average+=cat_data_info[i].blue;
+            red_average+=cat_data_save[i].red;
+            blue_average+=cat_data_save[i].blue;
         }
     }
     if(count>=1){
