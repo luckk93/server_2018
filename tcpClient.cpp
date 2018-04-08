@@ -5,8 +5,6 @@
 #define ROBOT_IP "192.168.0.39"
 #define ROBOT_PORT 5000
 
-extern int patternData[3];
-
 bool isTcpClientConnected = false;
 
 void* tcpClientThread(void* t)
@@ -38,8 +36,10 @@ void* tcpClientThread(void* t)
     } while(!quitServer && isError == -1);
     while(!quitServer)
     {
-        if(patternData[0] != 0 && patternData[1] != 0 && patternData[2] != 0)
-        sendPattern(sockfd, patternData);
+        if(newPattern){
+            sendPattern(sockfd, patternData);
+            newPattern=false;
+        }
         sleep(3);
     }
     

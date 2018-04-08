@@ -6,9 +6,12 @@
 #include <time.h>
 #include "tcpClient.h"
 
-int patternData[3];
+int patternData[3]={0,0,0};
+bool newPattern=false;
 
 char upd_err_msg[100];
+
+cat_info cat_data;
 
 stampdata reciveddata[NOMBRECAM];
 
@@ -27,6 +30,7 @@ void *udpserverThread(void *t){
     struct data buffer;
     timespec messagetime, nextdisplay;
     int camMsgId = 0;
+    int cat_data_size = sizeof(cat_info);
     
     // Define robot address and port
     memset((char *)&si_robot, 0, sizeof(si_robot));
@@ -89,14 +93,21 @@ void *udpserverThread(void *t){
 
             if(buffer.cat_data.red==0){
                 sendCatData();
+                sendto(udpSocket, cat_data, cat_data_size, 0,(struct sockaddr *)&si_other,(socklen_t*)&slen);
             }
             else{
                 getCatData();
             }
 
-            patternData[0] = buffer.pattern[0];
-            patternData[1] = buffer.pattern[1];
-            patternData[2] = buffer.pattern[2];
+            if(!((buffer.pattern[0]==0)||(buffer.pattern[0]==0)||(buffer.pattern[0]==0))){
+            	if((patternData[0]!=buffer.pattern[0])||(patternData[1]!=buffer.pattern[1])||(patternData[2]!=buffer.pattern[2])){
+            		patternData = buffer.pattern;
+            		newPattern=true;
+            	}
+            }
+            //patternData[0] = buffer.pattern[0];
+            //patternData[1] = buffer.pattern[1];
+            //patternData[2] = buffer.pattern[2];
                     
             camMsgId = buffer.camera_id-1;
             if(camMsgId < 0 || camMsgId > NOMBRECAM) {
