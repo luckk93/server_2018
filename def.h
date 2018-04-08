@@ -128,7 +128,7 @@ extern bool quitServer;
 extern int msntorobot[ROBOTINFONUMBER];
 extern char stringtorobot[STRINGTOROBOTSIZE];
 extern int tic;
-extern int buffer[BUFFERSIZE];
+//extern int buffer[BUFFERSIZE];
 extern bool udpinit;
 
 extern pthread_mutex_t mutex_udpin;
