@@ -503,7 +503,7 @@ void interfaceMainLoop(){
             }
             SDL_RenderDrawLine(renderer,100+(lastdata[i1][i2].y>>1),100+(lastdata[i1][i2].x>>1),100+(vecty>>1),100+(vectx>>1));
           }
-          else if (lastdata[i1][i2].x>3000){
+          else if (lastdata[i1][i2].y>3000){
             tempvect=(-lastdata[i1][i2].y)*(lastdata[i1][i2].inclinx/lastdata[i1][i2].incliny)+lastdata[i1][i2].x;
             if(tempvect<0){
               vectx=0;
