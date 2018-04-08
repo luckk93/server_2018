@@ -12,7 +12,6 @@ bool newPattern=false;
 char upd_err_msg[100];
 
 cat_info cat_data;
-struct data buffer;
 cat_info cat_data_save[NOMBRECAM];
 
 stampdata reciveddata[NOMBRECAM];
@@ -25,6 +24,7 @@ void sendPosition(int udpSocket, struct sockaddr_in si_robot, char robotId, shor
 void sendCatData();
 
 void *udpserverThread(void *t){
+    struct data buffer;
     struct sockaddr_in si_me, si_other, si_robot;
     int udpSocket, recv_len ; 
     socklen_t slen = sizeof(si_other);
