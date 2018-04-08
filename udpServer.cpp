@@ -26,7 +26,7 @@ void getCatData();
 void *udpserverThread(void *t){
     struct sockaddr_in si_me, si_other, si_robot;
     int udpSocket; 
-    socket_t slen = sizeof(si_other), recv_len;
+    socklen_t slen = sizeof(si_other), recv_len;
     memset((char *) &si_robot, 0, sizeof(si_robot));
     struct data buffer;
     timespec messagetime, nextdisplay;
