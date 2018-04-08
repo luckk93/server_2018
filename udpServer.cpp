@@ -87,14 +87,14 @@ void *udpserverThread(void *t){
         memset(&buffer, 0, sizeof(buffer)); //clean buffer
         
         //try to receive some data, this is a blocking call
-        if((recv_len = recvfrom(udpSocket, &buffer, BUFFER_SIZE, 0, (struct sockaddr *)&si_other, (socklen_t*)&slen)) == -1) {
+        if((recv_len = recvfrom(udpSocket, &buffer, BUFFER_SIZE, 0, (struct sockaddr *)&si_other, &slen)) == -1) {
             sprintf(upd_err_msg, "Data reception failed %d.", errno);
         }
         else{
 
             if(buffer.cat_data.red==0){
                 sendCatData();
-                sendto(udpSocket, &cat_data, cat_data_size, 0,(struct sockaddr *)&si_other,(socklen_t*)&slen);
+                sendto(udpSocket, &cat_data, cat_data_size, 0,(struct sockaddr *)&si_other,&slen);
             }
             else{
                 getCatData();
