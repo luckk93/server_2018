@@ -94,7 +94,7 @@ void *udpserverThread(void *t){
 
             if(buffer.cat_data.red==0){
                 sendCatData();
-                sendto(udpSocket, &cat_data, cat_data_size, 0,(struct sockaddr *)&si_other,&slen);
+                sendto(udpSocket, &cat_data, cat_data_size, 0,(struct sockaddr *)&si_other,slen);
             }
             else{
                 getCatData();
