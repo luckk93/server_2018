@@ -153,10 +153,9 @@ void *udpserverThread(void *t){
             }
             //displayData(buffer);
             printterminal();
+            sendPosition(udpSocket, si_robot, msntorobot[0], msntorobot[1], msntorobot[2]);
+            sendPosition(udpSocket, si_robot, msntorobot[4], msntorobot[5], msntorobot[6]);
         }
-
-        sendPosition(udpSocket, si_robot, msntorobot[0], msntorobot[1], msntorobot[2]);
-        sendPosition(udpSocket, si_robot, msntorobot[4], msntorobot[5], msntorobot[6]);
     }
     fclose(datalog);
     // fermeture du socket

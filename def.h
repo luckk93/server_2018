@@ -38,7 +38,7 @@ using namespace std;
 
 #define NTOSECOND 1000000000
 #define NSECEXP   500000000
-#define DISPLAYRATE 100000000
+#define DISPLAYRATE 500000000
 
 #define XWIDTH 2000
 #define YWIDTH 3000
