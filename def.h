@@ -87,9 +87,18 @@ typedef struct
 {
     int x;
     int y;
+    float angle;
+    float max_angle;
+    int cat_x;
+    int cat_y;
+} camdata_t;
+
+typedef struct
+{
     float camcos;
     float camsin;
-} campos_t;
+    float camInclX
+} camincl_t;
 
 struct boule {
     unsigned int boule_id;
@@ -121,9 +130,11 @@ extern robotvector_t ballvct[NOMBREBALLS][NOMBRECAM + 1];
 extern robotpos_t ballpst[NOMBREBALLS][NOMBRECAM][NOMBRECAM];
 extern int vectnumbr[NOMBREBALLS];
 extern int posnumbr[NOMBREBALLS];
-extern campos_t camPos[NOMBRECAM];
+extern camdata_t camData[NOMBRECAM];
 extern pos_t posRobot[NOMBREBALLS];
 extern bool quitServer;
+extern bool new_cat_pos;
+extern bool new_cat_pos_array[NOMBRECAM];
 
 extern int msntorobot[ROBOTINFONUMBER];
 extern char stringtorobot[STRINGTOROBOTSIZE];
@@ -134,6 +145,7 @@ extern bool udpinit;
 extern pthread_mutex_t mutex_udpin;
 
 extern char upd_err_msg[100];
+extern cat_info cat_data_save[NOMBRECAM];
 
 extern int patternData[3];
 extern bool newPattern;

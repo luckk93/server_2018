@@ -115,6 +115,8 @@ void *udpserverThread(void *t){
                 }
                 else{
                     memcpy( &(cat_data_save[camMsgId]), &(buffer.cat_data), sizeof(cat_data));
+                    new_cat_pos=true;
+                    new_cat_pos_array[camMsgId]=true;
                 }
 
                 clock_gettime(CLOCK_REALTIME, &messagetime);

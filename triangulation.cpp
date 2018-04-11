@@ -6,6 +6,7 @@
 #include <cmath>
 #include <chrono>
 #include "def.h"
+#include <fstream>
 
 #define EXPTIME 10 
 
@@ -15,19 +16,12 @@ robotvector_t ballvct[NOMBREBALLS][NOMBRECAM + 1];
 robotpos_t ballpst[NOMBREBALLS][NOMBRECAM][NOMBRECAM];
 int vectnumbr[NOMBREBALLS] = {0};
 int posnumbr[NOMBREBALLS] = {0};
-campos_t camPos[NOMBRECAM] = {
-    { 72, -49, 0.3859, 0.9225 },    	// 1	22.7°
-    { 95, -72, 0.9135, 0.4067 },    	// 2	66°
-    { 1905, -72, -0.9156, 0.4019 }, 	// 3	-66.3°
-    { 1928, -49, -0.4146, 0.9099 },  	// 4	-24.5°
-    { 1048, 3057, 0.939, -0.342 },		// 5	110°
-    { 1018, 3049, 0.342, -0.939 },  	// 6	160°
-    { 982, 3049, -0.3534, -0.9354 },  	// 7	-159°
-    { 952, 3057, -0.939, -0.342 },		// 8	-110°
-};
+camdata_t camData[NOMBRECAM];
 stampdata reciveddatabackup[NOMBRECAM];
 
 stampvector lastdata[NOMBREBALLS][NOMBRECAM];
+
+void initCamWithFile();
 
 /***********************************************************************************************/
 /* get vector origin and inclination   
@@ -46,11 +40,18 @@ void *calcPosVect(void *t) {
     //static robotvector_t ballvct[NOMBREBALLS][NOMBRECAM+1];
     float rotcos = 0;
     float rotsin = 0;
-    
-    static float camMaxSideAngle = ANGLECAM/2;
-    static float tanValue = tan(camMaxSideAngle * 3.1415 / 180);
-    static float camInclX = 1296 / tanValue;
+
     float camInclY = 0;
+
+    camincl_t camIncl[NOMBRECAM];
+
+    //angles initialisation
+    initCamWithFile();
+    bool new_cat_pos=true;
+    bool new_cat_pos_array[NOMBRECAM];
+    for(int i=0; i < NOMBRECAM; i++){
+    	new_cat_pos_array[i]=true;
+    }
     
     //array with the ball position, utiliation number and expiration time 
     //1 dimension color ball
@@ -83,6 +84,20 @@ void *calcPosVect(void *t) {
     clock_gettime(CLOCK_REALTIME, &start);
     
     while(!quitServer) {
+
+    	if(new_cat_pos){
+	    	for(int i=0; i<NOMBRECAM; i++){
+	    		if(new_cat_pos_array[i]){
+			        camIncl[i].camsin=sin(camData[i].angle);
+			        camIncl[i].camcos=cos(camData[i].angle);
+			        float camMaxSideAngle = camData[i].max_angle/2;
+			        float tanValue = tan(camMaxSideAngle * PI / 180);
+			        camIncl[i].camInclX = HALFWIDTH / tanValue;
+			        new_cat_pos_array[i]=false;
+			    }
+	    	}
+	    	new_cat_pos=false;
+	    }
         
         pthread_mutex_lock(&mutex_udpin);
         for(int i1 = 0; i1 < NOMBRECAM; i1++) {
@@ -129,15 +144,15 @@ void *calcPosVect(void *t) {
                         }
                         
                         if((ballident >= 0) && (ballident < NOMBREBALLS)) {
-                            rotcos = camPos[i1].camcos;
-                            rotsin = camPos[i1].camsin;
+                            rotcos = camIncl[i1].camcos;
+                            rotsin = camincl[i1].camsin;
                             
                             camInclY = (float)(HALFWIDTH - (((int)reciveddatabackup[i1].buffer.boules[i2].boule_data[3] + (int)reciveddatabackup[i1].buffer.boules[i2].boule_data[1]) >> 1));
-                            lastdata[ballident][i1].x = camPos[i1].x;
-                            lastdata[ballident][i1].y = camPos[i1].y;
+                            lastdata[ballident][i1].x = camData[i1].x;
+                            lastdata[ballident][i1].y = camData[i1].y;
                             lastdata[ballident][i1].expire = reciveddatabackup[i1].expire;
-                            lastdata[ballident][i1].inclinx = rotcos * camInclX - rotsin * camInclY;
-                            lastdata[ballident][i1].incliny = rotsin * camInclX + rotcos * camInclY;
+                            lastdata[ballident][i1].inclinx = rotcos * camIncl[i1].camInclX - rotsin * camInclY;
+                            lastdata[ballident][i1].incliny = rotsin * camIncl[i1].camInclX + rotcos * camInclY;
                             lastdata[ballident][i1].active = true;
                             lastdata[ballident][i1].modify = true;
                         }
@@ -250,4 +265,12 @@ void *calcPosVect(void *t) {
         tic = diff.tv_nsec;
     }
     pthread_exit(NULL);
+}
+
+void initCamWithFile(){
+	std::fstream myCamData("./cam.conf", std::ios_base::in);
+	for (int i = 0; i < NOMBRECAM; i++){
+		myCamData >> camData[i].x >> camData[i].y >> camData[i].angle >> camData[i].max_angle >> camData[i].cat_x >> camData[i].cat_y;
+	}   
+    myCamData.close();
 }
