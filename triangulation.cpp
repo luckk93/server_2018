@@ -9,8 +9,9 @@
 #include <fstream>
 
 #define EXPTIME 10 
-
 #define HALFWIDTH 1296
+#define INCLIN_TOLLERANCE 1.05 
+
 
 robotvector_t ballvct[NOMBREBALLS][NOMBRECAM + 1];
 robotpos_t ballpst[NOMBREBALLS][NOMBRECAM][NOMBRECAM];
@@ -198,9 +199,15 @@ void *calcPosVect(void *t) {
                 if(lastdata[i1][i2].active) {
                     for(int i3 = i2 + 1; i3 < NOMBRECAM; i3++) {
                         if(lastdata[i1][i3].active) {
-                            xTemp = xTemp + ballpst[i1][i2][i3].x;
-                            yTemp = yTemp + ballpst[i1][i2][i3].y;
-                            valuenumber++;
+                        	float inclRatio1 = lastdata[i1][i2].inclinx * lastdata[i1][i3].incliny;
+                        	float inclRatio2 = lastdata[i1][i3].inclinx * lastdata[i1][i2].incliny; 
+                        	if((inclRatio1*INCLIN_TOLLERANCE)>inclRatio2){
+                        		if((inclRatio2*INCLIN_TOLLERANCE)>inclRatio1){
+		                            xTemp = xTemp + ballpst[i1][i2][i3].x;
+		                            yTemp = yTemp + ballpst[i1][i2][i3].y;
+		                            valuenumber++;
+		                        }
+                        	}
                         }
                     }
                 }
