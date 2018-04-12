@@ -18,6 +18,7 @@ robotpos_t ballpst[NOMBREBALLS][NOMBRECAM][NOMBRECAM];
 int vectnumbr[NOMBREBALLS] = {0};
 int posnumbr[NOMBREBALLS] = {0};
 camdata_t camData[NOMBRECAM];
+camincl_t camIncl[NOMBRECAM];
 stampdata reciveddatabackup[NOMBRECAM];
 
 stampvector lastdata[NOMBREBALLS][NOMBRECAM];
@@ -46,8 +47,6 @@ void *calcPosVect(void *t) {
     float rotsin = 0;
 
     float camInclY = 0;
-
-    camincl_t camIncl[NOMBRECAM];
 
     //angles initialisation
     initCamWithFile();

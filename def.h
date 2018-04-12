@@ -131,6 +131,7 @@ extern robotpos_t ballpst[NOMBREBALLS][NOMBRECAM][NOMBRECAM];
 extern int vectnumbr[NOMBREBALLS];
 extern int posnumbr[NOMBREBALLS];
 extern camdata_t camData[NOMBRECAM];
+extern camincl_t camIncl[NOMBRECAM];
 extern pos_t posRobot[NOMBREBALLS];
 extern bool quitServer;
 extern bool new_cat_pos;
