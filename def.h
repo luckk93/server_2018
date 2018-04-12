@@ -125,7 +125,6 @@ typedef struct {
     bool modified;
 } stampdata;
 
-
 extern robotvector_t ballvct[NOMBREBALLS][NOMBRECAM + 1];
 extern robotpos_t ballpst[NOMBREBALLS][NOMBRECAM][NOMBRECAM];
 extern int vectnumbr[NOMBREBALLS];
