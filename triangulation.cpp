@@ -203,12 +203,10 @@ void *calcPosVect(void *t) {
                         if(lastdata[i1][i3].active) {
                         	float inclRatio1 = lastdata[i1][i2].inclinx * lastdata[i1][i3].incliny;
                         	float inclRatio2 = lastdata[i1][i3].inclinx * lastdata[i1][i2].incliny; 
-                        	if((inclRatio1*INCLIN_TOLLERANCE)<inclRatio2){
-                        		if((inclRatio2*INCLIN_TOLLERANCE)<inclRatio1){
-		                            xTemp = xTemp + ballpst[i1][i2][i3].x;
-		                            yTemp = yTemp + ballpst[i1][i2][i3].y;
-		                            valuenumber++;
-		                        }
+                        	if(!(((inclRatio1*INCLIN_TOLLERANCE)<inclRatio2)&&((inclRatio2*INCLIN_TOLLERANCE)<inclRatio1))){
+	                            xTemp = xTemp + ballpst[i1][i2][i3].x;
+	                            yTemp = yTemp + ballpst[i1][i2][i3].y;
+	                            valuenumber++;
                         	}
                         }
                     }
