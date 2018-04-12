@@ -97,7 +97,7 @@ typedef struct
 {
     float camcos;
     float camsin;
-    float camInclX
+    float camInclX;
 } camincl_t;
 
 struct boule {
