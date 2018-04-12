@@ -155,8 +155,10 @@ void *udpserverThread(void *t){
             }
             //displayData(buffer);
             printterminal();
-            sendPosition(udpSocket, si_robot, msntorobot[0], msntorobot[1], msntorobot[2]);
-            sendPosition(udpSocket, si_robot, msntorobot[4], msntorobot[5], msntorobot[6]);
+            //sendPosition(udpSocket, si_robot, msntorobot[0], msntorobot[1], msntorobot[2]);		//1° ally
+            //sendPosition(udpSocket, si_robot, msntorobot[4], msntorobot[5], msntorobot[6]);		//2° ally
+            sendPosition(udpSocket, si_robot, msntorobot[8], msntorobot[9], msntorobot[10]);		//1° enemy
+            sendPosition(udpSocket, si_robot, msntorobot[12], msntorobot[13], msntorobot[14]);		//2° enemy
         }
     }
     fclose(datalog);

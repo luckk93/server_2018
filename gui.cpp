@@ -405,7 +405,7 @@ void interfaceInit(){
     //cameras
     int c1;
     for(c1=0;c1<8;c1++){
-      drawCamera(100+(camData[c1].y>>1), 100+(camData[c1].x>>1) ,camIncl[c1].camsin,-camIncl[c1].camsin);
+      drawCamera(100+(camData[c1].y>>1), 100+(camData[c1].x>>1) ,camIncl[c1].camcos,-camIncl[c1].camsin);
     }
 
     

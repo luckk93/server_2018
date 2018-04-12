@@ -90,8 +90,13 @@ void *calcPosVect(void *t) {
     	if(new_cat_pos){
 	    	for(int i=0; i<NOMBRECAM; i++){
 	    		if(new_cat_pos_array[i]){
-			        camIncl[i].camcos=sin((camData[i].angle* PI / 180));		//to understand why to invert
-			        camIncl[i].camsin=cos((camData[i].angle* PI / 180));		
+                    float angle_diff=0;
+                    if(camData.cat_x!=0){
+    	    			int cat_diff= cat_data_save[i].x - camData.cat_x;
+    	    			angle_diff = camData[i].max_angle * cat_diff / PIXELWIDTH;
+                    }
+			        camIncl[i].camcos=sin((camData[i].angle+angle_diff)* PI / 180);		//to understand why to invert sin and cos
+			        camIncl[i].camsin=cos((camData[i].angle+angle_diff)* PI / 180);		
 			        float camMaxSideAngle = camData[i].max_angle/2;
 			        float tanValue = tan(camMaxSideAngle * PI / 180);
 			        camIncl[i].camInclX = HALFWIDTH / tanValue;
