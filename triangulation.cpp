@@ -10,7 +10,7 @@
 
 #define EXPTIME 10 
 #define HALFWIDTH 1296
-#define INCLIN_TOLLERANCE 1.05 
+#define INCLIN_TOLLERANCE 1.1 
 
 
 robotvector_t ballvct[NOMBREBALLS][NOMBRECAM + 1];
