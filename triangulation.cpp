@@ -146,7 +146,7 @@ void *calcPosVect(void *t) {
                         
                         if((ballident >= 0) && (ballident < NOMBREBALLS)) {
                             rotcos = camIncl[i1].camcos;
-                            rotsin = camincl[i1].camsin;
+                            rotsin = camIncl[i1].camsin;
                             
                             camInclY = (float)(HALFWIDTH - (((int)reciveddatabackup[i1].buffer.boules[i2].boule_data[3] + (int)reciveddatabackup[i1].buffer.boules[i2].boule_data[1]) >> 1));
                             lastdata[ballident][i1].x = camData[i1].x;
