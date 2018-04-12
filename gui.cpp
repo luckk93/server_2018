@@ -541,6 +541,7 @@ void interfaceMainLoop(){
   
 
 void *interfaceThread(void *t){
+  while(!cam_init_flag);
   interfaceInit();
   while(!quitServer)interfaceMainLoop();
   closeInterface();

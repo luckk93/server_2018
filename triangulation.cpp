@@ -20,6 +20,7 @@ int posnumbr[NOMBREBALLS] = {0};
 camdata_t camData[NOMBRECAM];
 camincl_t camIncl[NOMBRECAM];
 stampdata reciveddatabackup[NOMBRECAM];
+bool cam_init_flag=false;
 
 stampvector lastdata[NOMBREBALLS][NOMBRECAM];
 
@@ -98,6 +99,7 @@ void *calcPosVect(void *t) {
 			    }
 	    	}
 	    	new_cat_pos=false;
+	    	cam_init_flag=true;
 	    }
         
         pthread_mutex_lock(&mutex_udpin);
