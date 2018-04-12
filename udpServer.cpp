@@ -49,11 +49,15 @@ void *udpserverThread(void *t){
     struct timeval tv;
     tv.tv_sec = 0;
     tv.tv_usec = 100000;
+    int broadcast_enable=1; 
     
     if(setsockopt(udpSocket, SOL_SOCKET, SO_RCVTIMEO, &tv, sizeof(tv)) < 0) {
         sprintf(upd_err_msg, "Could not set timeout on socket.");
     }
-    
+    if(setsockopt(udpSocket, SOL_SOCKET, SO_BROADCAST, &broadcast_enable, sizeof(broadcast_enable)) <0) {
+        sprintf(upd_err_msg, "Could not set broadcast on socket.");
+    }
+
     // zero out the structure
     memset((char *)&si_me, 0, sizeof(si_me));
     si_me.sin_family = AF_INET;
