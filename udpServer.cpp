@@ -16,7 +16,7 @@ cat_info cat_data_save[NOMBRECAM];
 
 stampdata reciveddata[NOMBRECAM];
 
-#define ROBOT_IP "192.168.0.39"
+#define ROBOT_IP "192.168.0.255"
 #define ROBOT_PORT 5000
 #define LOCAL_SERVER_PORT 8888
 
@@ -111,14 +111,13 @@ void *udpserverThread(void *t){
 
                 if(buffer.cat_data.red==0){
                     sendCatData();
-                    sendto(udpSocket, &cat_data, cat_data_size, 0,(struct sockaddr *)&si_other,slen);
                 }
                 else{
                     memcpy( &(cat_data_save[camMsgId]), &(buffer.cat_data), sizeof(cat_data));
                     new_cat_pos=true;
                     new_cat_pos_array[camMsgId]=true;
                 }
-
+                sendto(udpSocket, &cat_data, cat_data_size, 0,(struct sockaddr *)&si_other,slen);
                 clock_gettime(CLOCK_REALTIME, &messagetime);
                 
                 pthread_mutex_lock(&mutex_udpin);
