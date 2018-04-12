@@ -22,6 +22,9 @@ stampdata reciveddatabackup[NOMBRECAM];
 
 stampvector lastdata[NOMBREBALLS][NOMBRECAM];
 
+ bool new_cat_pos=true;
+ bool new_cat_pos_array[NOMBRECAM];
+
 void initCamWithFile();
 
 /***********************************************************************************************/
@@ -48,8 +51,6 @@ void *calcPosVect(void *t) {
 
     //angles initialisation
     initCamWithFile();
-    bool new_cat_pos=true;
-    bool new_cat_pos_array[NOMBRECAM];
     for(int i=0; i < NOMBRECAM; i++){
     	new_cat_pos_array[i]=true;
     }
