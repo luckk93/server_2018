@@ -136,6 +136,8 @@ extern bool quitServer;
 extern bool new_cat_pos;
 extern bool new_cat_pos_array[NOMBRECAM];
 extern bool cam_init_flag;
+extern long int packet_counter;
+
 
 extern int msntorobot[ROBOTINFONUMBER];
 extern char stringtorobot[STRINGTOROBOTSIZE];

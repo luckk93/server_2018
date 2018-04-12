@@ -15,6 +15,7 @@ cat_info cat_data;
 cat_info cat_data_save[NOMBRECAM];
 
 stampdata reciveddata[NOMBRECAM];
+long int packet_counter=0;
 
 #define ROBOT_IP "192.168.0.255"
 #define ROBOT_PORT 5000
@@ -97,7 +98,7 @@ void *udpserverThread(void *t){
             sprintf(upd_err_msg, "Data reception failed %d.", errno);
         }
         else{
-
+        	packet_counter++;
             if(!((buffer.pattern[0]==0)||(buffer.pattern[0]==0)||(buffer.pattern[0]==0))){
             	if((patternData[0]!=buffer.pattern[0])||(patternData[1]!=buffer.pattern[1])||(patternData[2]!=buffer.pattern[2])){
             		patternData[0] = buffer.pattern[0];

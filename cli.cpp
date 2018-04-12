@@ -49,6 +49,8 @@ void printterminal(void){
 
      sprintf(tempbuffer, "\033[24;1H\033[2K%s\n", upd_err_msg);
     strcat(terminalbuffer, tempbuffer);
+    sprintf(tempbuffer, "\033[25;1H\033[2KReceived packet: %l\n", packet_counter);
+
     
     printf("%s\n", terminalbuffer);
 
